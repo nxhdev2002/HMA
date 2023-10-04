@@ -1,9 +1,15 @@
 import { getUsers } from '@/controllers/userController'
 import { Router } from 'express'
 import { isAuthenticatedUser } from '@/middlewares/auth'
+import { loginUser, registerUser } from '@/controllers/authController'
 
-const userRouters = Router()
+const route = Router()
 
-userRouters.route('/users').get(isAuthenticatedUser, getUsers)
+/// public routes
+route.route('/login').post(loginUser)
+route.route('/register').post(registerUser)
 
-export default userRouters
+/// Auth routes
+route.route('/users').get(isAuthenticatedUser, getUsers)
+
+export default route
