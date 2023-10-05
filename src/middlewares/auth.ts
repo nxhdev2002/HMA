@@ -20,13 +20,14 @@ export const isAuthenticatedUser = catchAsyncError(async (req: GetUserAuthInfoRe
   }
 
   const decoded = jwt.verify(bearerToken, process.env.JWT_SECRET as string) as JwtPayload
-  req.user = await User.findByPk(decoded.id)
+  const user = await User.findByPk(decoded.id)
 
-  if (typeof req.user === 'undefined' || req.user === null) {
+  if (typeof user === 'undefined' || user === null) {
     next(
       new ErrorHandler('Contact admin for more infomation.', 400)
     ); return
   }
 
+  req.user = user
   next()
 })

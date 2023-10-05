@@ -2,7 +2,9 @@
 import sequelize from '@/utils/dbConn';
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcryptjs'
+import md5 from 'md5'
+import { NextFunction } from 'express';
+import ErrorHandler from '@/utils/ErrorHandler';
 
 class User extends Model {
   declare id: number
@@ -13,8 +15,8 @@ class User extends Model {
       id: this.id,
     }, process.env.JWT_SECRET!)
   }
-  async comparePassword(enteredPassword: string) {
-    return await bcrypt.compare(enteredPassword, this.password)
+  comparePassword(enteredPassword: string) {
+    return md5(enteredPassword) === this.password
   }
 }
 User.init({
@@ -30,14 +32,25 @@ User.init({
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   fullName: {
     type: DataTypes.STRING
   },
   email: {
     type: DataTypes.STRING,
-    unique: true
+    validate: {
+      isUnique: function(value: string, next: NextFunction) {
+          User.findOne({
+              where: {email: value},
+              attributes: ['id']
+          }).then((user: any) => {
+              if (user)
+                  next(new ErrorHandler('This email is taken', 400))
+              next();
+          });
+      }
+    }
   },
   birthday: {
     type: DataTypes.TIME
@@ -48,7 +61,7 @@ User.init({
   }
 }, {
   sequelize,
-  modelName: 'User'
+  modelName: 'User',
 });
 
 

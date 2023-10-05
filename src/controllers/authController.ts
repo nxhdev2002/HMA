@@ -3,7 +3,7 @@ import User from '@/models/User'
 import { type HttpResponse } from '@/types/HttpResponse'
 import ErrorHandler from '@/utils/ErrorHandler'
 import { type NextFunction, type Request, type Response } from 'express'
-
+import md5 from 'md5'
 interface UserRegisterResponse {
   user: User
   token: string
@@ -12,9 +12,10 @@ interface UserRegisterResponse {
 export const registerUser = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
   const { username, email, password, name, birthday, gender } = req.body
 
+  const hashedPwd = md5(password)
   const user = await User.create({
     username,
-    password,
+    password: hashedPwd,
     fullName: name,
     email,
     birthday,
@@ -39,7 +40,7 @@ export const loginUser = catchAsyncError(async (req: Request, res: Response, nex
 
   // check if email & password is correctly
   if (username === null || password === null) {
-    next(new ErrorHandler('Please enter email & password', 400))
+    next(new ErrorHandler('Please enter email & password', 400)); return
   }
 
   const user = await User.findOne({
@@ -52,9 +53,9 @@ export const loginUser = catchAsyncError(async (req: Request, res: Response, nex
     next(new ErrorHandler('Invalid email or password', 401)); return
   }
 
-  const isMatched: boolean = await user.comparePassword(password)
+  const isMatched: boolean = user.comparePassword(password)
   if (!isMatched) {
-    next(new ErrorHandler('Invalid email or password', 401))
+    next(new ErrorHandler('Invalid email or password', 401)); return
   }
 
   const token = user.getJwtToken()

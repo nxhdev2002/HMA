@@ -2,9 +2,10 @@ import { type HttpResponse } from '@/types/HttpResponse'
 import type ErrorHandler from '@/utils/ErrorHandler'
 import { type NextFunction, type Request, type Response } from 'express'
 
-export = (err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {
+export = (err: ErrorHandler | any, req: Request, res: Response, next: NextFunction) => {
+  console.log(err)
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  err.statusCode = err.statusCode || 500
+  err.statusCode = err.errors ? err.errors[0].original.statusCode : err.statusCode || 500
 
   if (process.env.NODE_ENV === 'DEVELOPMENT') {
     const resp: HttpResponse<string> = {
