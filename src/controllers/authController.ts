@@ -32,7 +32,7 @@ export const registerUser = catchAsyncError(async (req: Request, res: Response, 
     }
   }
 
-  res.send(resp)
+  res.status(201).send(resp)
 })
 
 export const loginUser = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {

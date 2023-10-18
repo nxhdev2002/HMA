@@ -5,9 +5,11 @@ import fs from 'fs'
 import morgan from 'morgan'
 import path from 'path'
 import catchError from '@/middlewares/catchError'
+import { type Request, type Response } from 'express'
+import { type HttpResponse } from './types/HttpResponse'
 
 const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, 'logs/access.log'), { flags: 'a' }
+  path.join(__dirname, '../logs/access.log'), { flags: 'a' }
 )
 
 const app = express()
@@ -18,6 +20,13 @@ app.use(morgan('combined', { stream: accessLogStream }))
 
 /// routes
 app.use('/api/v1/', appRouters)
+app.use('*', (req: Request, res: Response) => {
+  const resp: HttpResponse<null> = {
+    status: 404,
+    message: 'API Endpoint not found'
+  }
+  res.status(404).json(resp)
+})
 
 app.use(catchError)
 export default app
