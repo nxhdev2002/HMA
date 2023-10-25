@@ -14,12 +14,12 @@ export const registerUser = catchAsyncError(async (req: Request, res: Response, 
 
   const hashedPwd = md5(password)
   const user = await User.create({
-    username,
-    password: hashedPwd,
-    fullName: name,
-    email,
-    birthday,
-    gender
+    Username: username,
+    Password: hashedPwd,
+    FullName: name,
+    Email: email,
+    Birthday: birthday,
+    Gender: gender
   })
 
   const token = user.getJwtToken()
@@ -46,7 +46,7 @@ export const loginUser = catchAsyncError(async (req: Request, res: Response, nex
   const user = await User.findOne({
     where:
       {
-        username
+        Username: username
       }
   })
   if (user === null) {

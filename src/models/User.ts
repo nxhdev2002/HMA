@@ -1,6 +1,6 @@
 
 import sequelize from '@/utils/dbConn';
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import { Sequelize, DataTypes, Model, BOOLEAN } from 'sequelize';
 import jwt from 'jsonwebtoken'
 import md5 from 'md5'
 import { NextFunction } from 'express';
@@ -8,7 +8,7 @@ import ErrorHandler from '@/utils/ErrorHandler';
 
 class User extends Model {
   declare id: number
-  declare password: string
+  declare Password: string
 
   getJwtToken() {
     return jwt.sign({
@@ -16,7 +16,7 @@ class User extends Model {
     }, process.env.JWT_SECRET!)
   }
   comparePassword(enteredPassword: string) {
-    return md5(enteredPassword) === this.password
+    return md5(enteredPassword) === this.Password
   }
 }
 User.init({
@@ -26,18 +26,18 @@ User.init({
     primaryKey: true
   },
   // Model attributes are defined here
-  username: {
+  Username: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  password: {
+  Password: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  fullName: {
+  FullName: {
     type: DataTypes.STRING
   },
-  email: {
+  Email: {
     type: DataTypes.STRING,
     validate: {
       isUnique: function(value: string, next: NextFunction) {
@@ -52,13 +52,17 @@ User.init({
       }
     }
   },
-  birthday: {
+  Gender: {
+    type: DataTypes.TINYINT,
+  },
+  Birthday: {
     type: DataTypes.TIME
   },
-  gender: {
-    type: DataTypes.TINYINT,
-    defaultValue: 0,
+  IsPremiumUser: {
+    type: BOOLEAN,
+    defaultValue: false,
   }
+
 }, {
   sequelize,
   modelName: 'User',
