@@ -23,7 +23,7 @@ app.use('/api/v1/', appRouters)
 app.use('*', (req: Request, res: Response) => {
   const resp: HttpResponse<null> = {
     status: 404,
-    message: 'API Endpoint not found'
+    message: 'API Endpoint not found!'
   }
   res.status(404).json(resp)
 })
