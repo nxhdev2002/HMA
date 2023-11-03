@@ -5,7 +5,11 @@ import { type NextFunction, type Request, type Response } from 'express'
 export = (err: ErrorHandler | any, req: Request, res: Response, next: NextFunction) => {
   console.log(err)
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  err.statusCode = err.errors ? err.errors[0].original.statusCode : err.statusCode || 500
+  try {
+    err.statusCode = err.errors == null ? err.errors[0].original.statusCode : err.statusCode
+  } catch {
+    err.statusCode = 500
+  }
 
   if (process.env.NODE_ENV === 'DEVELOPMENT') {
     const resp: HttpResponse<string> = {
