@@ -1,7 +1,6 @@
-FROM node:18
+FROM node:18.18.2-slim
 WORKDIR /app
 COPY package.json .
 COPY . .
 RUN npm install
-RUN mkdir logs
 CMD npm run prod
