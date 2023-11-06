@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app:
     image: nxhdev2002/hma-express
-    container_name: app
+    container_name: hma-app
     volumes:
       - ./app:/home/node/app
     ports:
