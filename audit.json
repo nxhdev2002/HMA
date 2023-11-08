@@ -1,0 +1,46 @@
+{
+    "keepSettings": {
+        "type": 2,
+        "amount": 10
+    },
+    "auditFilename": "audit.json",
+    "hashType": "md5",
+    "extension": "",
+    "files": [
+        {
+            "date": 1699245811218,
+            "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\src\\log/access-20231106.log",
+            "hash": "73ce31228469a6f81bbea07a8c215504"
+        },
+        {
+            "date": 1699245831399,
+            "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\log/access-20231106.log",
+            "hash": "ee95cfafea072b73a796e7ed460b0f98"
+        },
+        {
+            "date": 1699246297571,
+            "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\logs/access-20231106.log",
+            "hash": "58848a31e5fc52a95de2a7d897ac435d"
+        },
+        {
+            "date": 1699246370230,
+            "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\logs/access-%YMD%.log.20231106",
+            "hash": "abcb06c347139ce40edfdb0bd6a35fa4"
+        },
+        {
+            "date": 1699246400008,
+            "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\logs/access-%YYMMDD%.log.20231106",
+            "hash": "c8a479330ae0cac44fcd8be354d5dfce"
+        },
+        {
+            "date": 1699246454349,
+            "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\logs/access-2023-11-06.log",
+            "hash": "9750e36d662d64cf742db8bd91e35530"
+        },
+        {
+            "date": 1699416101538,
+            "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\logs/access-2023-11-08.log",
+            "hash": "d288b437dc9b840be3f4977370e50911"
+        }
+    ]
+}

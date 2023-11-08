@@ -1,1 +1,5 @@
-node_modules
+logs/
+.env
+.vscode/
+.git/
+node_modules/

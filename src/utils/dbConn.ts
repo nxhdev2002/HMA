@@ -1,11 +1,12 @@
 import { Sequelize } from 'sequelize'
 
+const SQL_DATABASE = process.env.SQL_DATABASE ?? ''
 const sequelize = new Sequelize(
-  process.env.SQL_DATABASE as string,
-  process.env.SQL_USERNAME as string,
-  process.env.SQL_PASSWORD as string,
+  SQL_DATABASE,
+  (process.env.SQL_USERNAME ?? ''),
+  (process.env.SQL_PASSWORD ?? ''),
   {
-    host: process.env.SQL_ADDRESS,
+    host: process.env.SQL_ADDRESS ?? '10.8.0.254',
     dialect: 'mysql'
   })
 
