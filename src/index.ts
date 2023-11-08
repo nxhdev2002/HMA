@@ -1,5 +1,7 @@
 /* eslint-disable import/first */
+
 import { configDotenv } from 'dotenv'
+
 configDotenv()
 
 import app from '@/app'

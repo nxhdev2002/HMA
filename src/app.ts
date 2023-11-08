@@ -9,7 +9,7 @@ import { type Request, type Response } from 'express'
 import { type HttpResponse } from './types/HttpResponse'
 
 const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, '../logs/access.log'), { flags: 'a' }
+  path.join(__dirname, '../access.log'), { flags: 'a' }
 )
 
 const app = express()
