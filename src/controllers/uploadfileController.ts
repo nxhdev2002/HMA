@@ -37,7 +37,7 @@ export const uploadAPKFile = catchAsyncError(async (req: Request, res: Response)
     FileData: file?.size,
     FileName: file?.originalname,
     FilePath: file?.path,
-    Version: 1
+    Version: req.body.Version
   })
 
   //
@@ -84,5 +84,10 @@ export const downloadLatestAPKFile = catchAsyncError(async (req: Request, res: R
     }
     res.status(404).send(resp)
   }
-  res.download(results.FilePath)
+  const resp: HttpResponse<any> = {
+    status: 200,
+    message: 'Get latest version successfully',
+    data: results
+  }
+  res.send(resp)
 })

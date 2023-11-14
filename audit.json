@@ -8,16 +8,6 @@
     "extension": "",
     "files": [
         {
-            "date": 1699245831399,
-            "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\log/access-20231106.log",
-            "hash": "ee95cfafea072b73a796e7ed460b0f98"
-        },
-        {
-            "date": 1699246297571,
-            "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\logs/access-20231106.log",
-            "hash": "58848a31e5fc52a95de2a7d897ac435d"
-        },
-        {
             "date": 1699246370230,
             "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\logs/access-%YMD%.log.20231106",
             "hash": "abcb06c347139ce40edfdb0bd6a35fa4"
@@ -56,6 +46,16 @@
             "date": 1699855415929,
             "name": "C:\\Users\\ADMIN\\nodejs\\HMA\\logs/access-2023-11-13.log",
             "hash": "041bd91da27c50acdaa204ae845e3d9b"
+        },
+        {
+            "date": 1699868741139,
+            "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\logs/access-2023-11-13.log",
+            "hash": "3cf7c25647baf841f2eda70a16dcb039"
+        },
+        {
+            "date": 1699976242607,
+            "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\logs/access-2023-11-14.log",
+            "hash": "c4d9bb2351da13c5ecf2f089044a2b86"
         }
     ]
 }
