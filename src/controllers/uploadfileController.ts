@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { type Request, type Response } from 'express'
 import { type HttpResponse } from '@/types/HttpResponse'
 import catchAsyncError from '@/middlewares/catchAsyncError'
@@ -8,7 +7,7 @@ import sequelize from '@/utils/dbConn'
 
 export const getAppVersionById = catchAsyncError(async (req: GetUserAuthInfoRequest, res: Response): Promise<void> => {
   const id = req.params.id
-  const [results, _] = await sequelize.query('call HMA_APPVERSION_GET_BY_ID(:id)', {
+  const [results] = await sequelize.query('call HMA_APPVERSION_GET_BY_ID(:id)', {
     replacements: {
       id
     }
@@ -53,7 +52,7 @@ export const uploadAPKFile = catchAsyncError(async (req: Request, res: Response)
 export const downloadAPKFile = catchAsyncError(async (req: Request, res: Response): Promise<void> => {
   const id = req.params.id
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [results, _] = await sequelize.query('call HMA_APPVERSION_GET_BY_ID(:id)', {
+  const [results] = await sequelize.query('call HMA_APPVERSION_GET_BY_ID(:id)', {
     replacements: {
       id
     }
@@ -76,7 +75,7 @@ export const downloadAPKFile = catchAsyncError(async (req: Request, res: Respons
 })
 
 export const downloadLatestAPKFile = catchAsyncError(async (req: Request, res: Response): Promise<void> => {
-  const [results, _] = await sequelize.query('call HMA_APPVERSION_GET_LATEST()') as unknown as [AppVersion, any]
+  const [results] = await sequelize.query('call HMA_APPVERSION_GET_LATEST()') as unknown as [AppVersion, any]
   if (results === null) {
     const resp: HttpResponse<any> = {
       status: 404,

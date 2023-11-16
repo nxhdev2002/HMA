@@ -6,7 +6,7 @@ import { NextFunction } from 'express';
 import ErrorHandler from '@/utils/ErrorHandler';
 
 class User extends Model {
-  declare id: number
+  declare Id: number
   declare Password: string
 
   comparePassword(enteredPassword: string) {

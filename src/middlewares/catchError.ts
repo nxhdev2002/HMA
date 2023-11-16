@@ -4,12 +4,11 @@ import { type NextFunction, type Request, type Response } from 'express'
 
 export = (err: ErrorHandler | any, req: Request, res: Response, next: NextFunction) => {
   console.log(err)
-  err.statusCode = 500
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  try {
-    err.statusCode = err.errors == null ? err.errors[0].original.statusCode : err.statusCode
-  } catch {
-  }
+  // try {
+  //   err.statusCode = err.errors == null ? err.errors[0].original.statusCode : err.statusCode
+  // } catch {
+  // }
 
   if (process.env.NODE_ENV === 'DEVELOPMENT') {
     const resp: HttpResponse<string> = {

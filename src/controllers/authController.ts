@@ -25,7 +25,7 @@ export const registerUser = catchAsyncError(async (req: Request, res: Response, 
   })
 
   const token = jwt.sign({
-    id: user.id
+    id: user.Id
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   }, process.env.JWT_SECRET!)
   const resp: HttpResponse<UserRegisterResponse> = {
@@ -48,7 +48,7 @@ export const loginUser = catchAsyncError(async (req: Request, res: Response, nex
     next(new ErrorHandler('Please enter email & password', 400)); return
   }
 
-  const [user, _] = await sequelize.query('call HMA_AUTH_LOGIN(:username, :password)', {
+  const [user] = await sequelize.query('call HMA_AUTH_LOGIN(:username, :password)', {
     replacements: {
       username,
       password: md5(password)
@@ -60,13 +60,16 @@ export const loginUser = catchAsyncError(async (req: Request, res: Response, nex
   }
 
   const token = jwt.sign({
-    id: user.id
+    id: user.Id
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   }, process.env.JWT_SECRET!)
 
   res.status(200).json({
-    success: true,
-    token,
-    user
+    status: 200,
+    message: 'User login successfully',
+    data: {
+      user,
+      token
+    }
   })
 })
