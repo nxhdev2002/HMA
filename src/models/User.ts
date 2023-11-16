@@ -54,6 +54,7 @@ User.init({
   },
   Gender: {
     type: DataTypes.TINYINT,
+    defaultValue: 0,
   },
   Birthday: {
     type: DataTypes.TIME
