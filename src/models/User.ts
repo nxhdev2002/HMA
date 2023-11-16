@@ -1,7 +1,6 @@
 
 import sequelize from '@/utils/dbConn';
 import { Sequelize, DataTypes, Model, BOOLEAN } from 'sequelize';
-import jwt from 'jsonwebtoken'
 import md5 from 'md5'
 import { NextFunction } from 'express';
 import ErrorHandler from '@/utils/ErrorHandler';
@@ -10,11 +9,6 @@ class User extends Model {
   declare id: number
   declare Password: string
 
-  getJwtToken() {
-    return jwt.sign({
-      id: this.id,
-    }, process.env.JWT_SECRET!)
-  }
   comparePassword(enteredPassword: string) {
     return md5(enteredPassword) === this.Password
   }

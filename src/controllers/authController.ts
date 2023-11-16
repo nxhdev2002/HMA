@@ -4,6 +4,8 @@ import { type HttpResponse } from '@/types/HttpResponse'
 import ErrorHandler from '@/utils/ErrorHandler'
 import { type NextFunction, type Request, type Response } from 'express'
 import md5 from 'md5'
+import jwt from 'jsonwebtoken'
+import sequelize from '@/utils/dbConn'
 interface UserRegisterResponse {
   user: User
   token: string
@@ -22,7 +24,10 @@ export const registerUser = catchAsyncError(async (req: Request, res: Response, 
     Gender: gender
   })
 
-  const token = user.getJwtToken()
+  const token = jwt.sign({
+    id: user.id
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  }, process.env.JWT_SECRET!)
   const resp: HttpResponse<UserRegisterResponse> = {
     status: 201,
     message: 'User registered successfully',
@@ -43,22 +48,22 @@ export const loginUser = catchAsyncError(async (req: Request, res: Response, nex
     next(new ErrorHandler('Please enter email & password', 400)); return
   }
 
-  const user = await User.findOne({
-    where:
-      {
-        Username: username
-      }
-  })
-  if (user === null) {
+  const [user, _] = await sequelize.query('call HMA_AUTH_LOGIN(:username, :password)', {
+    replacements: {
+      username,
+      password: md5(password)
+    }
+  }) as unknown as [User, any]
+
+  if (typeof user === 'undefined') {
     next(new ErrorHandler('Invalid email or password', 401)); return
   }
 
-  const isMatched: boolean = user.comparePassword(password)
-  if (!isMatched) {
-    next(new ErrorHandler('Invalid email or password', 401)); return
-  }
+  const token = jwt.sign({
+    id: user.id
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  }, process.env.JWT_SECRET!)
 
-  const token = user.getJwtToken()
   res.status(200).json({
     success: true,
     token,
