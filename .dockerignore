@@ -3,3 +3,4 @@ logs/
 .vscode/
 .git/
 node_modules/
+audit.json
