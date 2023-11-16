@@ -6,6 +6,9 @@ import { type NextFunction, type Request, type Response } from 'express'
 import md5 from 'md5'
 import jwt from 'jsonwebtoken'
 import sequelize from '@/utils/dbConn'
+import { randomString } from '@/utils/random'
+import SendEmail from '@/utils/SendEmail'
+import { type MailOption } from '@/types/MailOption'
 interface UserRegisterResponse {
   user: User
   token: string
@@ -72,4 +75,30 @@ export const loginUser = catchAsyncError(async (req: Request, res: Response, nex
       token
     }
   })
+})
+
+export const forgotPassword = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+  const { email } = req.body
+
+  const newpwd = randomString(8)
+
+  await sequelize.query('call HMA_AUTH_RESET_PASSWORD(:email, :newpwd)', {
+    replacements: {
+      email,
+      newpwd: md5(newpwd)
+    }
+  })
+
+  const msg: MailOption = {
+    email,
+    subject: 'Reset mật khẩu người dùng',
+    msg: 'Mật khẩu mới của bạn là : ' + newpwd
+  }
+  await SendEmail(msg)
+
+  const resp: HttpResponse<null> = {
+    status: 200,
+    message: 'Reset password successfully'
+  }
+  res.status(200).send(resp)
 })
