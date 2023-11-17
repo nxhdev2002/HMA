@@ -4,11 +4,12 @@ import { isAuthenticatedUser } from '@/middlewares/auth'
 import { loginUser, registerUser } from '@/controllers/authController'
 import { downloadAPKFile, downloadLatestAPKFile, getAppVersionById, uploadAPKFile } from '@/controllers/uploadfileController'
 import upload from '@/middlewares/upload'
+import { loginValidator } from '@/validator/loginValidator'
 
 const route = Router()
 
 /// public routes
-route.route('/login').post(loginUser)
+route.route('/login').post(loginValidator, loginUser)
 route.route('/register').post(registerUser)
 
 /// Auth routes

@@ -6,6 +6,7 @@ import { type NextFunction, type Request, type Response } from 'express'
 import md5 from 'md5'
 import jwt from 'jsonwebtoken'
 import sequelize from '@/utils/dbConn'
+import { validationResult } from 'express-validator/src/validation-result'
 interface UserRegisterResponse {
   user: User
   token: string
@@ -41,12 +42,22 @@ export const registerUser = catchAsyncError(async (req: Request, res: Response, 
 })
 
 export const loginUser = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorMessages = errors.array().map(error => error.msg)
+    // return res.status(400).json({ errors: errors.array() })
+    return res.status(400).json({
+      status: 400,
+      message: 'User login failed',
+      errors: errorMessages
+    })
+  }
   const { username, password } = req.body
 
   // check if email & password is correctly
-  if (username === null || password === null) {
-    next(new ErrorHandler('Please enter email & password', 400)); return
-  }
+  // if (username === null || password === null) {
+  //   next(new ErrorHandler('Please enter email1', 400)); return
+  // }
 
   const [user] = await sequelize.query('call HMA_AUTH_LOGIN(:username, :password)', {
     replacements: {
