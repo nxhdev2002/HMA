@@ -1,7 +1,7 @@
 import { getUserProfile } from '@/controllers/userController'
 import { Router } from 'express'
 import { isAuthenticatedUser } from '@/middlewares/auth'
-import { loginUser, registerUser } from '@/controllers/authController'
+import { forgotPassword, loginUser, registerUser } from '@/controllers/authController'
 import { downloadAPKFile, downloadLatestAPKFile, getAppVersionById, uploadAPKFile } from '@/controllers/uploadfileController'
 import upload from '@/middlewares/upload'
 import { loginValidator } from '@/validator/loginValidator'
@@ -11,6 +11,7 @@ const route = Router()
 /// public routes
 route.route('/login').post(loginValidator, loginUser)
 route.route('/register').post(registerUser)
+route.route('/reset-password').post(forgotPassword)
 
 /// Auth routes
 route.route('/me').get(isAuthenticatedUser, getUserProfile)
