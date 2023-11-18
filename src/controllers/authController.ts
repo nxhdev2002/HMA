@@ -16,8 +16,18 @@ interface UserRegisterResponse {
 }
 
 export const registerUser = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorMessages = errors.array().map(error => error.msg)
+    const message = errorMessages.join(', ')
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const resp: HttpResponse<null> = {
+      status: 400,
+      message
+    }
+    return res.status(400).json(resp)
+  }
   const { username, email, password, name, birthday, gender } = req.body
-
   const hashedPwd = md5(password)
   const user = await User.create({
     Username: username,

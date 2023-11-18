@@ -5,12 +5,13 @@ import { forgotPassword, loginUser, registerUser } from '@/controllers/authContr
 import { downloadAPKFile, downloadLatestAPKFile, getAppVersionById, uploadAPKFile } from '@/controllers/uploadfileController'
 import upload from '@/middlewares/upload'
 import { loginValidator } from '@/validator/loginValidator'
+import { registerValidator } from '@/validator/registerValidator'
 
 const route = Router()
 
 /// public routes
 route.route('/login').post(loginValidator, loginUser)
-route.route('/register').post(registerUser)
+route.route('/register').post(registerValidator, registerUser)
 route.route('/reset-password').post(forgotPassword)
 
 /// Auth routes

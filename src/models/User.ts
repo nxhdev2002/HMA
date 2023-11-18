@@ -22,11 +22,23 @@ User.init({
   // Model attributes are defined here
   Username: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      isUnique: function(value: string, next: NextFunction) {
+          User.findOne({
+              where: {username: value},
+              attributes: ['id']
+          }).then((user: any) => {
+              if (user)
+                  next(new ErrorHandler('This username is taken', 400))
+              next();
+          });
+      }
+    }
   },
   Password: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: false
   },
   FullName: {
     type: DataTypes.STRING
@@ -51,6 +63,7 @@ User.init({
     defaultValue: 0,
   },
   Birthday: {
+    defaultValue: false,
     type: DataTypes.TIME
   },
   IsPremiumUser: {
