@@ -46,7 +46,7 @@ export const registerUser = catchAsyncError(async (req: Request, res: Response, 
 
 export const loginUser = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req)
-  if (errors.isEmpty() !== true) {
+  if (!errors.isEmpty()) {
     const errorMessages = errors.array().map(error => error.msg)
     // console.log(errors.array())
     const message = errorMessages.join(', ')
