@@ -5,9 +5,9 @@ services:
     image: nxhdev2002/hma-express
     container_name: hma-app
     volumes:
-      - ./app:/home/node/app
+      - ./app/uploads:/home/app/uploads
     ports:
-      - "8080:3000"
+      - "3000:3000"
     environment:
       - "SQL_ADDRESS=10.8.0.254"
       - "SQL_PORT=3306"
@@ -15,5 +15,6 @@ services:
       - "SQL_PASSWORD=ANDROID@QWE@123"
       - "SQL_DATABASE=hma"
       - "PORT=3000"
+      - "JWT_SECRET=3e213123123123dasdasc32s"
     command: npm run prod
     network_mode: bridge
