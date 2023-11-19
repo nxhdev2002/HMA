@@ -10,6 +10,7 @@ import { randomString } from '@/utils/random'
 import SendEmail from '@/utils/SendEmail'
 import { type MailOption } from '@/types/MailOption'
 import { validationResult } from 'express-validator/src/validation-result'
+import { readFileSync } from 'fs'
 interface UserRegisterResponse {
   user: User
   token: string
@@ -113,10 +114,12 @@ export const forgotPassword = catchAsyncError(async (req: Request, res: Response
     }
   })
 
+  const content = readFileSync('src/resource/reset-password-template.html', 'utf-8').replace('{{newpwd}}', newpwd)
+
   const msg: MailOption = {
     email,
     subject: 'Reset mật khẩu người dùng',
-    msg: 'Mật khẩu mới của bạn là : ' + newpwd
+    msg: content
   }
   await SendEmail(msg)
 

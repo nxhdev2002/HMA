@@ -17,7 +17,7 @@ export = async (options: MailOption) => {
     from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}`,
     to: options.email,
     subject: options.subject,
-    text: options.msg
+    html: options.msg
   }
 
   await tp.sendMail(message)
