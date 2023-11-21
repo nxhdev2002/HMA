@@ -128,7 +128,27 @@ export const loginUserWithGoogle = catchAsyncError(async (req: Request, res: Res
     }) as unknown as [User, any]
 
     if (typeof user === 'undefined') {
-      next(new ErrorHandler('Invalid email or password', 401)); return
+      const hashedPwd = md5(randomString(20))
+      const user = await User.create({
+        Username: payload.email,
+        Password: hashedPwd,
+        FullName: payload.name,
+        Email: payload.email
+      })
+
+      const token = jwt.sign({
+        id: user.Id
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      }, process.env.JWT_SECRET!)
+      res.status(201).json({
+        status: 201,
+        message: 'User login successfully',
+        data: {
+          user,
+          token
+        }
+      })
+      return
     }
 
     /// update user info
