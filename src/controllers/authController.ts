@@ -133,7 +133,7 @@ export const loginUserWithGoogle = catchAsyncError(async (req: Request, res: Res
 
     /// update user info
     await sequelize.query('call HMA_AUTH_USER_UPDATE(:p_user_id, :p_avatar, :p_background, :p_fullname, :p_birthday, :p_gender)', {
-      replacements:{
+      replacements: {
         p_user_id: user.Id,
         p_avatar: payload.picture,
         p_background: null,
