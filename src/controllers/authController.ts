@@ -11,7 +11,7 @@ import SendEmail from '@/utils/SendEmail'
 import { type MailOption } from '@/types/MailOption'
 import { validationResult } from 'express-validator/src/validation-result'
 import { readFileSync } from 'fs'
-import { OAuth2Client } from 'google-auth-library'
+import { OAuth2Client, type TokenPayload } from 'google-auth-library'
 
 interface UserRegisterResponse {
   user: User
@@ -78,10 +78,11 @@ export const loginUser = catchAsyncError(async (req: Request, res: Response, nex
   //   next(new ErrorHandler('Please enter email1', 400)); return
   // }
 
-  const [user] = await sequelize.query('call HMA_AUTH_LOGIN(:username, :password)', {
+  const [user] = await sequelize.query('call HMA_AUTH_LOGIN(:username, :password, :type)', {
     replacements: {
       username,
-      password: md5(password)
+      password: md5(password),
+      type: 'NORMAL'
     }
   }) as unknown as [User, any]
 
@@ -111,11 +112,49 @@ export const loginUserWithGoogle = catchAsyncError(async (req: Request, res: Res
     audience: process.env.GOOGLE_CLIENT_ID
   })
 
-  const payload = ticket.getPayload()
-  if (payload !== undefined) {
-    console.log(payload)
+  const payload: TokenPayload | undefined = ticket.getPayload()
+  if (typeof (payload) === 'undefined') {
+    res.status(500).json({
+      status: 500,
+      message: 'Server error'
+    })
+  } else {
+    const [user] = await sequelize.query('call HMA_AUTH_LOGIN(:username, :password, :type)', {
+      replacements: {
+        username: payload.email,
+        password: null,
+        type: 'GOOGLE'
+      }
+    }) as unknown as [User, any]
+
+    if (typeof user === 'undefined') {
+      next(new ErrorHandler('Invalid email or password', 401)); return
+    }
+
+    /// update user info
+    await sequelize.query('call HMA_AUTH_USER_UPDATE(:p_user_id, :p_avatar, :p_background, :p_fullname, :p_birthday, :p_gender)', {
+      replacements:{
+        p_user_id: user.Id,
+        p_avatar: payload.picture,
+        p_background: null,
+        p_fullname: payload.name,
+        p_birthday: null,
+        p_gender: null
+      }
+    })
+    const token = jwt.sign({
+      id: user.Id
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    }, process.env.JWT_SECRET!)
+    res.status(200).json({
+      status: 200,
+      message: 'User login successfully',
+      data: {
+        user,
+        token
+      }
+    })
   }
-  res.status(201).send(payload)
 })
 
 export const forgotPassword = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
