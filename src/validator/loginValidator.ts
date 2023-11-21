@@ -7,3 +7,9 @@ export const loginValidator = [
     .not()
     .isEmpty()
 ]
+
+export const googleLoginValidator = [
+  body('token', 'Trường token không được trống.')
+    .not()
+    .isEmpty()
+]

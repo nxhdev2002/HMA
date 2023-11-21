@@ -11,6 +11,8 @@ import SendEmail from '@/utils/SendEmail'
 import { type MailOption } from '@/types/MailOption'
 import { validationResult } from 'express-validator/src/validation-result'
 import { readFileSync } from 'fs'
+import { OAuth2Client } from 'google-auth-library'
+
 interface UserRegisterResponse {
   user: User
   token: string
@@ -100,6 +102,20 @@ export const loginUser = catchAsyncError(async (req: Request, res: Response, nex
       token
     }
   })
+})
+
+export const loginUserWithGoogle = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+  const client = new OAuth2Client()
+  const ticket = await client.verifyIdToken({
+    idToken: req.body.token,
+    audience: process.env.GOOGLE_CLIENT_ID
+  })
+
+  const payload = ticket.getPayload()
+  if (payload !== undefined) {
+    console.log(payload)
+  }
+  res.status(201).send(payload)
 })
 
 export const forgotPassword = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {

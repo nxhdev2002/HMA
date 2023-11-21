@@ -1,16 +1,17 @@
 import { getUserProfile } from '@/controllers/userController'
 import { Router } from 'express'
 import { isAuthenticatedUser } from '@/middlewares/auth'
-import { forgotPassword, loginUser, registerUser } from '@/controllers/authController'
+import { forgotPassword, loginUser, loginUserWithGoogle, registerUser } from '@/controllers/authController'
 import { downloadAPKFile, downloadLatestAPKFile, getAppVersionById, uploadAPKFile } from '@/controllers/uploadfileController'
 import upload from '@/middlewares/upload'
-import { loginValidator } from '@/validator/loginValidator'
+import { googleLoginValidator, loginValidator } from '@/validator/loginValidator'
 import { registerValidator } from '@/validator/registerValidator'
 
 const route = Router()
 
 /// public routes
 route.route('/login').post(loginValidator, loginUser)
+route.route('/login-google').post(googleLoginValidator, loginUserWithGoogle)
 route.route('/register').post(registerValidator, registerUser)
 route.route('/reset-password').post(forgotPassword)
 
