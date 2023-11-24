@@ -1,4 +1,4 @@
-import { getUserProfile } from '@/controllers/userController'
+import { changeUserPassword, getUserProfile } from '@/controllers/userController'
 import { Router } from 'express'
 import { isAuthenticatedUser } from '@/middlewares/auth'
 import { forgotPassword, loginUser, loginUserWithGoogle, registerUser } from '@/controllers/authController'
@@ -6,6 +6,7 @@ import { downloadAPKFile, downloadLatestAPKFile, getAppVersionById, uploadAPKFil
 import upload from '@/middlewares/upload'
 import { googleLoginValidator, loginValidator } from '@/validator/loginValidator'
 import { registerValidator } from '@/validator/registerValidator'
+import { changePasswordValidator } from '@/validator/changePasswordValidator'
 
 const route = Router()
 
@@ -15,8 +16,9 @@ route.route('/login-google').post(googleLoginValidator, loginUserWithGoogle)
 route.route('/register').post(registerValidator, registerUser)
 route.route('/reset-password').post(forgotPassword)
 
-/// Auth routes
+/// profile routes
 route.route('/me').get(isAuthenticatedUser, getUserProfile)
+route.route('/change-password').post(isAuthenticatedUser, changePasswordValidator, changeUserPassword)
 
 /// App version
 route.route('/apk/upload').post(upload.single('file'), uploadAPKFile)
