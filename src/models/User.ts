@@ -11,7 +11,7 @@ class User extends Model {
   declare Email: string
   declare OTP: string | null
   declare OTPSentAt: Date | null
-
+  declare IsDeleted: number
   comparePassword(enteredPassword: string) {
     return md5(enteredPassword) === this.Password
   }
@@ -77,8 +77,10 @@ User.init({
   },
   OTPSentAt: {
     type: DataTypes.TIME,
+  },
+  IsDeleted: {
+    type: DataTypes.TINYINT
   }
-
 }, {
   sequelize,
   modelName: 'user',

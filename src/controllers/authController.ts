@@ -90,6 +90,8 @@ export const loginUser = catchAsyncError(async (req: Request, res: Response, nex
     next(new ErrorHandler('Invalid email or password', 401)); return
   }
 
+  if (user.IsDeleted === 1) next(new ErrorHandler('Người dùng đã bị khoá.', 403))
+
   const token = jwt.sign({
     id: user.Id
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -126,6 +128,8 @@ export const loginUserWithGoogle = catchAsyncError(async (req: Request, res: Res
         type: 'GOOGLE'
       }
     }) as unknown as [User, any]
+
+    if (user.IsDeleted === 1) next(new ErrorHandler('Người dùng đã bị khoá.', 403))
 
     if (typeof user === 'undefined') {
       const hashedPwd = md5(randomString(20))

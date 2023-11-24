@@ -13,7 +13,7 @@ import md5 from 'md5'
 export const getUserProfile = catchAsyncError(async (req: GetUserAuthInfoRequest, res: Response): Promise<void> => {
   const resp: HttpResponse<User> = {
     status: 200,
-    message: 'Fetched user successfully',
+    message: 'Lấy thông tin user thành công',
     data: req.user
   }
   res.send(resp)
@@ -94,7 +94,7 @@ export const getOTP = catchAsyncError(async (req: GetUserAuthInfoRequest, res: R
 
     const resp: HttpResponse<string> = {
       status: 200,
-      message: 'Get OTP Successfully'
+      message: 'Lấy mã OTP thành công'
     }
     res.send(resp)
   }

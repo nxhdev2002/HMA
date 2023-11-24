@@ -15,7 +15,7 @@ export const isAuthenticatedUser = catchAsyncError(async (req: GetUserAuthInfoRe
 
   if (bearerToken.length === 0) {
     next(
-      new ErrorHandler('You must login to access this resource.', 401)
+      new ErrorHandler('Bạn phải đăng nhập để truy cập tài nguyên này', 401)
     ); return
   }
   try {
@@ -24,14 +24,19 @@ export const isAuthenticatedUser = catchAsyncError(async (req: GetUserAuthInfoRe
 
     if (typeof user === 'undefined' || user === null) {
       next(
-        new ErrorHandler('Contact admin for more infomation.', 400)
+        new ErrorHandler('Thông tin xác thực không chính xác, vui lòng đăng nhập lại.', 403)
       ); return
+    }
+    if (user.IsDeleted === 1) {
+      next(
+        new ErrorHandler('Người dùng đã bị khoá.', 403)
+      )
     }
     req.user = user
     next()
   } catch {
     next(
-      new ErrorHandler('Contact admin for more infomation.', 400)
+      new ErrorHandler('Thông tin xác thực không chính xác, vui lòng đăng nhập lại.', 403)
     )
   }
 })
