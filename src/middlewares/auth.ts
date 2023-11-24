@@ -32,6 +32,6 @@ export const isAuthenticatedUser = catchAsyncError(async (req: GetUserAuthInfoRe
   } catch {
     next(
       new ErrorHandler('Contact admin for more infomation.', 400)
-    );
+    )
   }
 })
