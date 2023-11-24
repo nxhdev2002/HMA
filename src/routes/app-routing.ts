@@ -1,4 +1,4 @@
-import { changeUserPassword, getUserProfile } from '@/controllers/userController'
+import { changeUserPassword, getOTP, getUserProfile } from '@/controllers/userController'
 import { Router } from 'express'
 import { isAuthenticatedUser } from '@/middlewares/auth'
 import { forgotPassword, loginUser, loginUserWithGoogle, registerUser } from '@/controllers/authController'
@@ -19,6 +19,7 @@ route.route('/reset-password').post(forgotPassword)
 /// profile routes
 route.route('/me').get(isAuthenticatedUser, getUserProfile)
 route.route('/change-password').post(isAuthenticatedUser, changePasswordValidator, changeUserPassword)
+route.route('/get-otp').get(isAuthenticatedUser, getOTP)
 
 /// App version
 route.route('/apk/upload').post(upload.single('file'), uploadAPKFile)

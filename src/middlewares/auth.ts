@@ -18,16 +18,20 @@ export const isAuthenticatedUser = catchAsyncError(async (req: GetUserAuthInfoRe
       new ErrorHandler('You must login to access this resource.', 401)
     ); return
   }
+  try {
+    const decoded = jwt.verify(bearerToken, process.env.JWT_SECRET as string) as JwtPayload
+    const user = await User.findByPk(decoded.id)
 
-  const decoded = jwt.verify(bearerToken, process.env.JWT_SECRET as string) as JwtPayload
-  const user = await User.findByPk(decoded.id)
-
-  if (typeof user === 'undefined' || user === null) {
+    if (typeof user === 'undefined' || user === null) {
+      next(
+        new ErrorHandler('Contact admin for more infomation.', 400)
+      ); return
+    }
+    req.user = user
+    next()
+  } catch {
     next(
       new ErrorHandler('Contact admin for more infomation.', 400)
-    ); return
+    );
   }
-
-  req.user = user
-  next()
 })

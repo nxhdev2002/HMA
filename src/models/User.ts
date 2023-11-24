@@ -8,6 +8,9 @@ import ErrorHandler from '@/utils/ErrorHandler';
 class User extends Model {
   declare Id: number
   declare Password: string
+  declare Email: string
+  declare OTP: string | null
+  declare OTPSentAt: Date | null
 
   comparePassword(enteredPassword: string) {
     return md5(enteredPassword) === this.Password
@@ -63,12 +66,17 @@ User.init({
     defaultValue: 0,
   },
   Birthday: {
-    defaultValue: false,
     type: DataTypes.TIME
   },
   IsPremiumUser: {
     type: BOOLEAN,
     defaultValue: false,
+  },
+  OTP: {
+    type: DataTypes.STRING,
+  },
+  OTPSentAt: {
+    type: DataTypes.TIME,
   }
 
 }, {
