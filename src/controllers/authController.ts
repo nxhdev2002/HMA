@@ -129,8 +129,6 @@ export const loginUserWithGoogle = catchAsyncError(async (req: Request, res: Res
       }
     }) as unknown as [User, any]
 
-    if (user.IsDeleted === 1) next(new ErrorHandler('Người dùng đã bị khoá.', 403))
-
     if (typeof user === 'undefined') {
       const hashedPwd = md5(randomString(20))
       const user = await User.create({
@@ -144,6 +142,7 @@ export const loginUserWithGoogle = catchAsyncError(async (req: Request, res: Res
         id: user.Id
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       }, process.env.JWT_SECRET!)
+
       res.status(201).json({
         status: 201,
         message: 'User login successfully',
@@ -166,6 +165,7 @@ export const loginUserWithGoogle = catchAsyncError(async (req: Request, res: Res
         p_gender: null
       }
     })
+    if (user.IsDeleted === 1) next(new ErrorHandler('Người dùng đã bị khoá.', 403))
     const token = jwt.sign({
       id: user.Id
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
