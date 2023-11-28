@@ -2,7 +2,7 @@ import { changeUserPassword, getOTP, getUserProfile } from '@/controllers/userCo
 import { Router } from 'express'
 import { isAuthenticatedUser } from '@/middlewares/auth'
 import { forgotPassword, loginUser, loginUserWithGoogle, registerUser } from '@/controllers/authController'
-import { downloadAPKFile, downloadLatestAPKFile, getAppVersionById, uploadAPKFile } from '@/controllers/uploadfileController'
+import { downloadAPKFile, downloadLatestAPKFile, downloadMusicFileById, getAppVersionById, uploadAPKFile } from '@/controllers/uploadfileController'
 import upload from '@/middlewares/upload'
 import { googleLoginValidator, loginValidator } from '@/validator/loginValidator'
 import { registerValidator } from '@/validator/registerValidator'
@@ -20,6 +20,9 @@ route.route('/reset-password').post(forgotPassword)
 route.route('/me').get(isAuthenticatedUser, getUserProfile)
 route.route('/change-password').post(isAuthenticatedUser, changePasswordValidator, changeUserPassword)
 route.route('/get-otp').get(isAuthenticatedUser, getOTP)
+
+/// music routes
+route.route('/song/:id/download').get(downloadMusicFileById)
 
 /// App version
 route.route('/apk/upload').post(upload.single('file'), uploadAPKFile)
