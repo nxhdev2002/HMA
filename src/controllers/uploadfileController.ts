@@ -83,7 +83,7 @@ interface MusicPath {
 export const downloadMusicFileById = catchAsyncError(async (req: Request, res: Response): Promise<void> => {
   const id = req.params.id
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [results] = await sequelize.query('call HMA_APP_MUSIC_GET_BY_ID(:id)', {
+  const [results] = await sequelize.query('call HMA_APP_MUSIC_GET_LINK_BY_ID(:id)', {
     replacements: {
       id
     }
