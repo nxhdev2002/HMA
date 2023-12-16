@@ -20,8 +20,15 @@ export const searchMusicFileById = catchAsyncError(async (req: Request, res: Res
     if (results === null) {
       const resp: HttpResponse<any> = {
         status: 404,
-        message: 'File not found'
+        message: 'Music not found'
       }
       res.status(404).send(resp)
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const resp: HttpResponse<any> = {
+        status: 200,
+        message: 'Get music successfully',
+        data: results
+    }
+    res.send(resp)
   })
