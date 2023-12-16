@@ -24,5 +24,4 @@ export const searchMusicFileById = catchAsyncError(async (req: Request, res: Res
       }
       res.status(404).send(resp)
     }
-    res.download(results.FilePath)
   })
