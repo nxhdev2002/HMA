@@ -8,11 +8,6 @@
     "extension": "",
     "files": [
         {
-            "date": 1700121841601,
-            "name": "/Users/hoangnx/Project/HMA/logs/access-2023-11-16.log",
-            "hash": "5658a0a54601ff5a3695279dd476edec"
-        },
-        {
             "date": 1700269460548,
             "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\logs/access-2023-11-18.log",
             "hash": "beb25c20e58c616e4d1204f5fd669a40"
@@ -56,6 +51,11 @@
             "date": 1701959522009,
             "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\logs/access-2023-12-07.log",
             "hash": "b8ba79331e0eb8af6950b13b6e5aaaf0"
+        },
+        {
+            "date": 1702737479628,
+            "name": "C:\\Users\\S_member\\Documents\\Project\\HMA-Express\\logs/access-2023-12-16.log",
+            "hash": "24171b9fa670217015e02434cffc3380"
         }
     ]
 }

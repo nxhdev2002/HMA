@@ -16,7 +16,7 @@
 //     return md5(enteredPassword) === this.Password
 //   }
 // }
-// User.init({
+// // Song.init({
 //   id: {
 //     type: DataTypes.INTEGER,
 //     autoIncrement: true,
