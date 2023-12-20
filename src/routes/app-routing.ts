@@ -7,7 +7,7 @@ import upload from '@/middlewares/upload'
 import { googleLoginValidator, loginValidator } from '@/validator/loginValidator'
 import { registerValidator } from '@/validator/registerValidator'
 import { changePasswordValidator } from '@/validator/changePasswordValidator'
-import { searchMusicFileByKeyWord } from '@/controllers/searchController'
+import { getTrendingMusicFile, searchMusicFileByKeyWord } from '@/controllers/searchController'
 
 const route = Router()
 
@@ -25,6 +25,7 @@ route.route('/get-otp').get(isAuthenticatedUser, getOTP)
 /// music routes
 route.route('/song/:id/download').get(downloadMusicFileById)
 route.route('/songs').get(searchMusicFileByKeyWord)
+route.route('/songs/trending').get(getTrendingMusicFile)
 
 /// App version
 route.route('/apk/upload').post(upload.single('file'), uploadAPKFile)

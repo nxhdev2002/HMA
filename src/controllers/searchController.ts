@@ -26,3 +26,16 @@ export const searchMusicFileByKeyWord = catchAsyncError(async (req: Request, res
   }
   res.send(resp)
 })
+export const getTrendingMusicFile = catchAsyncError(async (req: Request, res: Response): Promise<void> => {
+  const results = await sequelize.query('call HMA_APP_MUSIC_GET_TOP_TRENDING', {
+    replacements: {
+    }
+  }) as unknown as [MusicPath[], any]
+
+  const resp: HttpResponse<any> = {
+      status: 200,
+      message: 'Get music successfully',
+      data: results
+  }
+  res.send(resp)
+})
