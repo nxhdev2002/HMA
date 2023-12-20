@@ -1,12 +1,12 @@
-import { type GetUserAuthInfoRequest } from '@/types/GetUserAuthInfoRequest'
+// import { type GetUserAuthInfoRequest } from '@/types/GetUserAuthInfoRequest'
 import { type HttpResponse } from '@/types/HttpResponse'
 import type ErrorHandler from '@/utils/ErrorHandler'
-import logger from '@/utils/logger'
+// import logger from '@/utils/logger'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { error } from 'console'
-import { type NextFunction, type Response } from 'express'
+import { type Request, type NextFunction, type Response } from 'express'
 
-export = (err: ErrorHandler | any, req: GetUserAuthInfoRequest, res: Response, next: NextFunction) => {
+export = (err: ErrorHandler | any, req: Request, res: Response, next: NextFunction) => {
   console.log(err)
   if (err.statusCode === null || typeof (err.statusCode) === 'undefined') {
     err.statusCode = 500
@@ -16,7 +16,7 @@ export = (err: ErrorHandler | any, req: GetUserAuthInfoRequest, res: Response, n
   //   err.statusCode = err.errors == null ? err.errors[0].original.statusCode : err.statusCode
   // } catch {
   // }
-  logger.error(req.user?.Id + err.message)
+  // logger.error(req.user?.Id + err.message)
   if (process.env.NODE_ENV === 'DEVELOPMENT') {
     const resp: HttpResponse<string> = {
       status: err.statusCode,
