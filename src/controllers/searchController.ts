@@ -4,6 +4,7 @@ import { type Request, type Response } from 'express'
 import { type HttpResponse } from '@/types/HttpResponse'
 import catchAsyncError from '@/middlewares/catchAsyncError'
 import sequelize from '@/utils/dbConn'
+import { type GetUserAuthInfoRequest } from '@/types/GetUserAuthInfoRequest'
 
 interface MusicPath {
   Id: number
@@ -11,10 +12,13 @@ interface MusicPath {
   FilePath: string
   Thumbnail: string
   ArtistName: string
+  IsLiked: boolean
 }
-export const searchMusicFileByKeyWord = catchAsyncError(async (req: Request, res: Response): Promise<void> => {
-  const results = await sequelize.query('call HMA_APP_MUSIC_GET_SONGS_BY_KEYWORD(:keyword)', {
+export const searchMusicFileByKeyWord = catchAsyncError(async (req: GetUserAuthInfoRequest, res: Response): Promise<void> => {
+  console.log(req.user)
+  const results = await sequelize.query('call HMA_APP_MUSIC_GET_SONGS_BY_KEYWORD(:user, :keyword)', {
     replacements: {
+      user: req.user.Id,
       keyword: req.query.key
     }
   }) as unknown as [MusicPath[], any]
